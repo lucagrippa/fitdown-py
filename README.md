@@ -1,7 +1,7 @@
 # fitdown-py
 Markup language and parser for fitness logs, mainly weightlifting. A superset of [Markdown](https://en.wikipedia.org/wiki/Markdown).
 
-Developed from -> https://github.com/datavis-tech/fitdown
+Based off of [fitdown](https://github.com/datavis-tech/fitdown)
 
 The idea is to be able to derive structured data from concise workout notes taken on a smartphone.
 
