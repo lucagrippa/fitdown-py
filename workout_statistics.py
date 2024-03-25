@@ -148,6 +148,9 @@ def get_second_most_recent_highest_weight(sets):
     sets_by_date = get_sets_by_date(sets)
 
     # get the most recent date
+    if len(sets_by_date) < 2:
+        return 0
+    
     second_most_recent_date = sorted(sets_by_date.keys(), key=lambda x: datetime.strptime(x, "%m/%d/%Y"), reverse=True)[1]
 
     # get the highest weight for the most recent date
@@ -173,7 +176,10 @@ def calculate_exercise_statistics(all_exercises):
         number_of_sets = len(sets)
         personal_best = get_personal_best(sets)
         most_recent = get_most_recent_highest_weight(sets)
-        second_most_recent = get_second_most_recent_highest_weight(sets)
+        if number_of_sets < 2:
+            second_most_recent = 0
+        else:
+            second_most_recent = get_second_most_recent_highest_weight(sets)
         percentage_difference = get_percentage_difference(most_recent, second_most_recent)
 
         exercise_statistics[exercise] = {
@@ -300,7 +306,7 @@ def test():
     load_dotenv()  # take environment variables from .env.
 
     # Path to the folder containing workout markdown files
-    workouts_folder = os.getenv("WORKOUTS_FOLDER")
+    workouts_folder = "test_workouts"
 
     target_workouts_per_week = 3
 
