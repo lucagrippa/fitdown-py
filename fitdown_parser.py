@@ -41,7 +41,12 @@ def parse(raw_text):
 
             # Find numbers after '@' using regular expression
             numbers_after_at = re.findall(r'\d+', after_at)
-            poundage = int(numbers_after_at[0])
+            if numbers_after_at:
+                # Parse poundage from the first number
+                poundage = int(numbers_after_at[0]) 
+            else:
+                # If no numbers are found, set poundage to 0
+                poundage = 0
 
             # Create a dictionary representing the row
             row = {"exercise": exercise, "reps": reps, "poundage": poundage}

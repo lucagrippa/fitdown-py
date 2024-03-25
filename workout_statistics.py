@@ -1,4 +1,5 @@
 import os
+import logging
 import json
 from datetime import datetime
 from dotenv import load_dotenv
@@ -6,6 +7,7 @@ from dotenv import load_dotenv
 from fitdown_parser import parse
 
 def calculate_workouts_per_year(workouts_folder):
+    logging.info(f"Calculating workouts per year in {workouts_folder}")
     workouts = os.listdir(workouts_folder)
 
     # Each workout file has the data of the workout in the filename ex. 2022-01-01.md
@@ -25,6 +27,7 @@ def calculate_workouts_per_year(workouts_folder):
 
 
 def calculate_workouts_per_month(workouts_folder):
+    logging.info(f"Calculating workouts per month in {workouts_folder}")
     workouts = os.listdir(workouts_folder)
 
     # Each workout file has the data of the workout in the filename ex. 2022-01-01.md
@@ -44,6 +47,7 @@ def calculate_workouts_per_month(workouts_folder):
     
 
 def calculate_workouts_per_week(workouts_folder):
+    logging.info(f"Calculating workouts per week in {workouts_folder}")
     workouts = os.listdir(workouts_folder)
 
     # Each workout file has the data of the workout in the filename ex. 2022-01-01.md
@@ -63,6 +67,7 @@ def calculate_workouts_per_week(workouts_folder):
 
 
 def calculate_streak(workouts_per_week, target_workouts_per_week):
+    logging.info(f"Calculating streak of working out {target_workouts_per_week} times a week")
     # calculate my current streak of working out 3 times a week
     # a streak means that I have worked out 3 times a week for a consecutive number of weeks
     previous_week = None  # Track the previous week number
@@ -82,10 +87,12 @@ def calculate_streak(workouts_per_week, target_workouts_per_week):
 
 
 def aggregate_exercises(workouts_folder):
+    logging.info(f"Aggregating exercises in {workouts_folder}")
     workouts = os.listdir(workouts_folder)
     all_exercises = {}
     for workout in workouts:
         workout_file = os.path.join(workouts_folder, workout)
+        logging.info(f"Aggregating exercises in {workout_file}")
         with open(workout_file, "r") as file:
             workout_content = file.read()
 
@@ -119,6 +126,7 @@ def get_sets_by_date(sets):
 
 
 def get_most_recent_highest_weight(sets):
+    logging.info(f"Calculating most recent highest weight")
     # sets = sorted(sets, key=lambda x: datetime.strptime(x["date"], "%m/%d/%Y"), reverse=True)
 
     # group the sets by date
@@ -135,6 +143,7 @@ def get_most_recent_highest_weight(sets):
 
 
 def get_second_most_recent_highest_weight(sets):
+    logging.info(f"Calculating second most recent highest weight")
     # group the sets by date
     sets_by_date = get_sets_by_date(sets)
 
@@ -149,6 +158,7 @@ def get_second_most_recent_highest_weight(sets):
 
 
 def get_percentage_difference(most_recent, second_most_recent):
+    logging.info(f"Calculating percentage difference between {most_recent} and {second_most_recent}")
     # check for division by zero
     if second_most_recent == 0:
         return 0.0
@@ -157,6 +167,7 @@ def get_percentage_difference(most_recent, second_most_recent):
 
 
 def calculate_exercise_statistics(all_exercises):
+    logging.info(f"Calculating exercise statistics")
     exercise_statistics = {}
     for exercise, sets in all_exercises.items():
         number_of_sets = len(sets)
@@ -177,6 +188,7 @@ def calculate_exercise_statistics(all_exercises):
 
 
 def create_month_table(workouts_per_month):
+    logging.info(f"Creating markdown table for workouts per month")
     # List of months in order
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -188,6 +200,7 @@ def create_month_table(workouts_per_month):
     return markdown_table
 
 def create_week_bar_chart(workouts_per_week):
+    logging.info(f"Creating bar chart for workouts per week")
     # Create a bar chart of the number of workouts per week
     bar_chart = ""
     # Determine the maximum number of workouts in a week
@@ -211,6 +224,7 @@ def create_week_bar_chart(workouts_per_week):
 
 
 def write_to_markdown(statistics_file, target_workouts_per_week, workouts_per_week, workouts_per_month, workouts_per_year, streak, exercise_statistics):
+    logging.info(f"Writing statistics to markdown file {statistics_file}")
     # Write statistics to markdown file
     with open(statistics_file, 'w') as file:
         file.write("# Workout Statistics\n\n")
@@ -269,6 +283,7 @@ def write_to_markdown(statistics_file, target_workouts_per_week, workouts_per_we
             file.write(f"- Personal Best: {stats['personal_best']} lbs 💪\n")
 
 def calculate_statistics(workouts_folder, target_workouts_per_week, statistics_file):
+    logging.info(f"Calculating statistics for workouts in {workouts_folder}")
     workouts_per_week = calculate_workouts_per_week(workouts_folder)
     workouts_per_month = calculate_workouts_per_month(workouts_folder)
     workouts_per_year = calculate_workouts_per_year(workouts_folder)
