@@ -332,6 +332,8 @@ def test():
 
 def main():
     load_dotenv()  # take environment variables from .env.
+    # set logging level
+    logging.basicConfig(level=logging.INFO)
 
     # parse command line args to run calculate_statistics function
     import argparse
