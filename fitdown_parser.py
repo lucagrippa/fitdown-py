@@ -24,7 +24,7 @@ def parse(workout_text):
             continue
         
         # Match exercise name
-        exercise_match = re.match(r'^(\w[\w\s]+)$', line)
+        exercise_match = re.match(r'^(\w[\w\s-]+)$', line)
         # If the line matches the exercise name pattern and there's a current date
         if exercise_match and current_date:  
             current_exercise = exercise_match.group(1).lower()
@@ -60,7 +60,7 @@ def parse(workout_text):
                 total_sets.extend([exercise_set] * int(sets))
             else:
                 # Match single line exercises
-                single_line_match = re.match(r'^([\d]+(?:x\d+)?\s*@\s*[\d.]+\s*(lb|kg)?)\s*([\w\s]+)$', line)
+                single_line_match = re.match(r'^([\d]+(?:x\d+)?\s*@\s*[\d.]+\s*(lb|kg)?)\s*([\w\s-]+)$', line)
                 if single_line_match:
                     sets_reps_weight = single_line_match.group(1)
                     unit = single_line_match.group(2)
