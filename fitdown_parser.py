@@ -1,112 +1,107 @@
 import re
 from datetime import datetime
 
-def parse(raw_text):
-    # Initialize an empty list to store parsed rows
-    rows = []
-    # Initialize variables for exercise and date
-    exercise = None
-    date = None
+def parse(workout_text):
+    total_sets = []
+    current_date = None
+    current_exercise = None
 
-    # Helper function to check if a line contains a specific symbol
-    def contains(line, symbol):
-        return symbol in line
-
-    # Helper function to parse poundage from a line
-    def parse_poundage(line):
-        # Use regular expression to find poundage in the format '[number]lb'
-        return int(re.search(r'\d+lb', line).group(0).replace("lb", ""))
-
-    # Iterate through each line in the raw text
-    for line in raw_text.split("\n"):
-        # Remove leading and trailing whitespaces from the line
+    # split raw text by on newlines
+    for line in workout_text.split("\n"):
+        # remove leading and trailing white space
         line = line.strip()
+        # skip empty lines
+        if not line:
+            current_exercise = None
+            continue
 
-        # If the line contains '@', parse reps, poundage, and notes
-        if contains(line, "@"):
-            reps, poundage, multiplier, notes = None, None, None, None
-            # Split the line at '@'
-            before_at, after_at = map(str.strip, line.split("@"))
-            before_at_lower = before_at.lower()
+        # Match workout date
+        date_match = re.match(r'^Workout (\w+ \d{1,2}, \d{4})$', line)
+        if date_match:
+            # save the current date
+            date_str = date_match.group(1)
+            current_date = datetime.strptime(date_str, "%B %d, %Y").strftime("%m/%d/%Y")
+            continue
+        
+        # Match exercise name
+        exercise_match = re.match(r'^(\w[\w\s]+)$', line)
+        # If the line matches the exercise name pattern and there's a current date
+        if exercise_match and current_date:  
+            current_exercise = exercise_match.group(1).lower()
+            continue
 
-            # Check if 'x' is present in the first part of the line
-            if "x" in before_at_lower:
-                before_x, after_x = before_at_lower.split("x")
-                multiplier = int(before_x)
-                reps = int(after_x)
-            else:
-                # If 'x' is not present, set multiplier to 1 and parse reps
-                multiplier = 1
-                reps = int(before_at)
-
-            # Find numbers after '@' using regular expression
-            numbers_after_at = re.findall(r'\d+', after_at)
-            if numbers_after_at:
-                # Parse poundage from the first number
-                poundage = int(numbers_after_at[0]) 
-            else:
-                # If no numbers are found, set poundage to 0
-                poundage = 0
-
-            # Create a dictionary representing the row
-            row = {"exercise": exercise, "reps": reps, "poundage": poundage}
-
-            # Check if there is text after numbers
-            has_text_after_numbers = len(numbers_after_at[0]) < len(after_at)
-            if has_text_after_numbers:
-                # Extract text after numbers and assign it to 'notes' or 'exercise' field
-                text_after_numbers = after_at[len(numbers_after_at[0]):].strip()
-
-                # check if exercise is already assigned
-                if exercise:
-                    # this is a multi-line exercise
-                    # check if the "notes" is just "lb"
-                    if text_after_numbers == "lb":
-                        # if so, continue to the next line
-                        continue
-                    row["notes"] = text_after_numbers
+        # Match sets, repetitions, notes, and single line exercises
+        if "@" in line and current_date:
+            # Match sets, repetitions, and weight
+            set_match = re.match(r'^(\d+(?:x\d+)?)\s*@\s*([\d.]+)\s*(lb|kg)\s*(.*)$', line)
+            if set_match and current_exercise:
+                sets_reps = set_match.group(1)
+                weight = set_match.group(2)
+                unit = set_match.group(3)
+                notes = set_match.group(4).strip()
+                
+                # Handle 'x' notation for sets and repetitions
+                if 'x' in sets_reps:
+                    sets, reps = map(int, sets_reps.split('x'))
                 else:
-                    # this is a single line exercise
-                    row["exercise"] = text_after_numbers
+                    sets = 1
+                    reps = int(sets_reps)
+                
+                # Append the extracted information to the total_sets list
+                exercise_set = {
+                    "date": current_date,
+                    "exercise": current_exercise,
+                    "reps": reps,
+                    "weight": float(weight),
+                    "unit": unit,
+                    "notes": notes
+                }
 
-                row["notes" if exercise else "exercise"] = text_after_numbers
+                total_sets.extend([exercise_set] * int(sets))
+            else:
+                # Match single line exercises
+                single_line_match = re.match(r'^([\d]+(?:x\d+)?\s*@\s*[\d.]+\s*(lb|kg)?)\s*([\w\s]+)$', line)
+                if single_line_match:
+                    sets_reps_weight = single_line_match.group(1)
+                    unit = single_line_match.group(2)
+                    exercise = single_line_match.group(3).strip().lower()
+                    
+                    # Handle 'x' notation for sets and repetitions
+                    if 'x' in sets_reps_weight:
+                        sets_reps = sets_reps_weight.split('@')[0].strip()
+                        sets, reps = map(int, sets_reps.split('x'))
+                    else:
+                        sets = 1
+                        reps = int(sets_reps_weight.split('@')[0].strip())
+                    
+                    # Extract weight
+                    weight = float(sets_reps_weight.split('@')[1].split(unit)[0].strip())
+                    
+                    # Append the extracted information to the total_sets list
+                    exercise_set = {
+                        "date": current_date,
+                        "exercise": exercise,
+                        "reps": reps,
+                        "weight": weight,
+                        "unit": unit,
+                        "notes": ""
+                    }
+                    total_sets.extend([exercise_set] * int(sets))
 
-            # Assign date to the row if it exists
-            if date:
-                row["date"] = date
-
-            # Add the row to the list, repeating it 'multiplier' times
-            rows.extend([row] * multiplier)
-        # If the line contains 'Workout', parse the date
-        elif contains(line, "Workout"):
-            # Extract the date string and convert it to the desired format
-            date_str = line.replace("Workout", "").strip()
-            date = datetime.strptime(date_str, "%B %d, %Y").strftime("%m/%d/%Y")
-        # If the line contains 'lb', parse poundage
-        elif contains(line, "lb"):
-            # Create a row with exercise, notes, and poundage
-            rows.append({"exercise": exercise, "notes": line, "poundage": parse_poundage(line)})
-        # If the line is empty, reset the exercise variable
-        elif not line:
-            exercise = None
-        else:
-            # Otherwise, the line represents the exercise name
-            exercise = line
-
-    # Return the list of parsed rows
-    return rows
+    return total_sets
 
 def main():
     import json
     # Path to the example_workout.md file
-    workout_file = "example_workout.md"
+    # workout_file = "example_workout.md"
+    workout_file = "2024-02-26.md"
 
     # Read the workout file
     with open(workout_file, "r") as file:
         workout_content = file.read()
 
     # Parse the workout file
-    workout_data = parse(workout_content)
+    workout_data = parse_new(workout_content)
 
     # Print the parsed workout data
     print(json.dumps(workout_data, indent=4, sort_keys=True))
