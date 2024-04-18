@@ -101,7 +101,7 @@ def main():
         workout_content = file.read()
 
     # Parse the workout file
-    workout_data = parse_new(workout_content)
+    workout_data = parse(workout_content)
 
     # Print the parsed workout data
     print(json.dumps(workout_data, indent=4, sort_keys=True))
