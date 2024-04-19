@@ -8,25 +8,23 @@ The idea is to be able to derive structured data from concise workout notes take
 Here's an example of a workout log in the Fitdown format:
 
 ```
-Workout February 27, 2024
+Workout February 26, 2024
 
-5@185 Deadlift
+5@185lb Deadlift
 
-Snatch
-Up to technique bar + 35lb each side
+3x5 @ 35kg Squat
 
-Clean and Jerk
-Up to 145lb
+Crunches
+3x20 @ 20lb 
 
-Squat
-3x5@165
-  
+Hammer Curl
+10 @ 45.5lb each
+10 @ 45.5lb each
+
 Bench Press
-3x5 @ 170lb
-  
-Deadlift
-5 @ 185
-5 @ 255 TOUGH
+10 @ 90lb 
+10 @ 90lb 
+10 @ 120lb TOUGH
 ```
 
 The following elements are parsed:
@@ -34,51 +32,100 @@ The following elements are parsed:
 ```
 [
     {
-        "date": "02/27/2024",
-        "exercise": "Deadlift",
-        "poundage": 185,
-        "reps": 5
+        "date": "02/26/2024",
+        "exercise": "deadlift",
+        "notes": "",
+        "reps": 5,
+        "unit": "lb",
+        "weight": 185.0
     },
     {
-        "exercise": "Snatch",
-        "notes": "Up to technique bar + 35lb each side",
-        "poundage": 35
+        "date": "02/26/2024",
+        "exercise": "squat",
+        "notes": "",
+        "reps": 5,
+        "unit": "kg",
+        "weight": 35.0
     },
     {
-        "exercise": "Clean and Jerk",
-        "notes": "Up to 145lb",
-        "poundage": 145
+        "date": "02/26/2024",
+        "exercise": "squat",
+        "notes": "",
+        "reps": 5,
+        "unit": "kg",
+        "weight": 35.0
     },
     {
-        "date": "02/27/2024",
-        "exercise": "Squat",
-        "poundage": 165,
-        "reps": 5
+        "date": "02/26/2024",
+        "exercise": "squat",
+        "notes": "",
+        "reps": 5,
+        "unit": "kg",
+        "weight": 35.0
     },
     {
-        "date": "02/27/2024",
-        "exercise": "Squat",
-        "poundage": 165,
-        "reps": 5
+        "date": "02/26/2024",
+        "exercise": "crunches",
+        "notes": "",
+        "reps": 20,
+        "unit": "lb",
+        "weight": 20.0
     },
     {
-        "date": "02/27/2024",
-        "exercise": "Squat",
-        "poundage": 165,
-        "reps": 5
+        "date": "02/26/2024",
+        "exercise": "crunches",
+        "notes": "",
+        "reps": 20,
+        "unit": "lb",
+        "weight": 20.0
     },
     {
-        "date": "02/27/2024",
-        "exercise": "Deadlift",
-        "poundage": 185,
-        "reps": 5
+        "date": "02/26/2024",
+        "exercise": "crunches",
+        "notes": "",
+        "reps": 20,
+        "unit": "lb",
+        "weight": 20.0
     },
     {
-        "date": "02/27/2024",
-        "exercise": "Deadlift",
+        "date": "02/26/2024",
+        "exercise": "hammer curl",
+        "notes": "each",
+        "reps": 10,
+        "unit": "lb",
+        "weight": 45.5
+    },
+    {
+        "date": "02/26/2024",
+        "exercise": "hammer curl",
+        "notes": "each",
+        "reps": 10,
+        "unit": "lb",
+        "weight": 45.5
+    },
+    {
+        "date": "02/26/2024",
+        "exercise": "bench press",
+        "notes": "",
+        "reps": 10,
+        "unit": "lb",
+        "weight": 90.0
+    },
+    {
+        "date": "02/26/2024",
+        "exercise": "bench press",
+        "notes": "",
+        "reps": 10,
+        "unit": "lb",
+        "weight": 90.0
+    },
+    {
+        "date": "02/26/2024",
+        "exercise": "bench press",
         "notes": "TOUGH",
-        "poundage": 255,
-        "reps": 5
+        "reps": 10,
+        "unit": "lb",
+        "weight": 120.0
     }
 ]
 ```
@@ -120,7 +167,6 @@ Deadlift
 5@185
 ```
 
-However, be careful to include an empty line before the single line exercise, otherwise it will be grouped with the previous exercise.
 
 ## Exercises with Multiplied Sets & Reps
 
@@ -153,17 +199,6 @@ Deadlift
 
 You can add any text after a set to add notes to it. In this case the notes `TOUGH` are associated to the second Deadlift set.
 
-## Loosely Formatted Exercises
-Examples:
-```
-Snatch
-Up to technique bar + 35lb each side
-```
-```
-Clean and Jerk
-Up to 145lb
-```
-It triggers on "lb". Exercise and poundage are parsed, and the entire line that includes "lb" is treated as notes.
 
 ## Acknowledgements
 

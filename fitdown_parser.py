@@ -93,8 +93,7 @@ def parse(workout_text):
 def main():
     import json
     # Path to the example_workout.md file
-    # workout_file = "example_workout.md"
-    workout_file = "2024-02-26.md"
+    workout_file = "example_workout.md"
 
     # Read the workout file
     with open(workout_file, "r") as file:

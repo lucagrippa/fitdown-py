@@ -1,19 +1,17 @@
-Workout February 27, 2024
+Workout February 26, 2024
 
-5@185 Deadlift
+5@185lb Deadlift
 
-Snatch
-Up to technique bar + 35lb each side
+3x5 @ 35kg Squat
 
-Clean and Jerk
-Up to 145lb
+Crunches
+3x20 @ 20lb 
 
-Squat
-3x5@165
-  
+Hammer Curl
+10 @ 45.5lb each
+10 @ 45.5lb each
+
 Bench Press
-3x5 @ 170lb
-  
-Deadlift
-5 @ 185
-5 @ 255 TOUGH
+10 @ 90lb 
+10 @ 90lb 
+10 @ 120lb TOUGH
