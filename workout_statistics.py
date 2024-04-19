@@ -110,7 +110,7 @@ def aggregate_exercises(workouts_folder):
 
 
 def get_personal_best(sets):
-    return max([set["poundage"] for set in sets])
+    return max([set["weight"] for set in sets])
 
 
 def get_sets_by_date(sets):
@@ -137,7 +137,7 @@ def get_most_recent_highest_weight(sets):
 
     # get the highest weight for the most recent date
     most_recent_sets = sets_by_date[most_recent_date]
-    highest_weight = max([set["poundage"] for set in most_recent_sets])
+    highest_weight = max([set["weight"] for set in most_recent_sets])
 
     return highest_weight
 
@@ -155,7 +155,7 @@ def get_second_most_recent_highest_weight(sets):
 
     # get the highest weight for the most recent date
     most_recent_sets = sets_by_date[second_most_recent_date]
-    highest_weight = max([set["poundage"] for set in most_recent_sets])
+    highest_weight = max([set["weight"] for set in most_recent_sets])
 
     return highest_weight
 
