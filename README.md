@@ -5,6 +5,73 @@ Based off of [fitdown](https://github.com/datavis-tech/fitdown)
 
 The idea is to be able to derive structured data from concise workout notes taken on a smartphone.
 
+## Workout Date
+Triggers on the term "Workout" and requires 'Month Day, Year' date format (e.g., 'January 1, 2024'). All exercises that follow a workout date line have that date associated with it.
+Example:
+```
+Workout January 1, 2024'
+```
+
+## Output
+
+
+## Exercises with Sets & Reps
+Parse a specific exercise and its sets and reps (repititions) with weights using a few different formats. Pounds (`lb`) and kilograms (`kg`) are supported and each exercise should be separated by a blank line.
+
+Formats:
+1. Single Line Exercises
+2. Multi-line Exercises
+3. Exercises with Multiplied Sets & Reps
+
+A parsed exercise is a dictionary with the following keys:
+- `date`: The date of the workout in `MM/DD/YYYY` format.
+- `exercise`: The name of the exercise.
+- `reps`: The number of repetitions.
+- `weight`: The weight lifted.
+- `unit` (Optional): The unit of weight, either `lb` or `kg`.
+- `notes` (Optional): Any notes associated with the exercise.
+
+## Single Line Exercises
+Can define an entire exercise on a single line. Notes are not supported in this format. 
+
+`{sets}x{reps}@{weight}{lb|kg} {exercise}`
+
+Example:
+```
+5@185 Deadlift
+
+5@185lb Deadlift
+
+2x5 @ 35 Squat
+
+2x5 @ 35kg Squat
+```
+
+## Multi-line Exercises
+Define an exercise and its sets and reps on multiple lines. Notes are supported in this format as shown in the example below, where the second Deadlift set is marked as 'TOUGH'.
+
+```
+{exercise}
+{sets}x{reps}@{weight}{lb|kg} {notes}
+```
+
+Example:
+```
+Deadlift
+5@185
+
+Deadlift
+5@185lb
+
+Squat
+2x5 @ 35
+
+Squat
+5@35kg
+5@35kg TOUGH
+```
+
+## Example
 Here's an example of a workout log in the Fitdown format:
 
 ```
@@ -113,76 +180,6 @@ The following elements are parsed:
     }
 ]
 ```
-
-## Workout Date
-Example:
-```
-Workout September 16, 2020
-```
-
-It triggers on the term "Workout", and requires this very specific date format.
-
-All exercises that follow a workout date line have that data associated with it.
-
-## Exercises with Sets & Reps
-Example:
-
-```
-Deadlift
-5@185
-5@255
-```
-
-This notation allows you to track a specific exercise and its sets and reps (repititions) with poundages.
-
-The first line of the group specifies the exercise, e.g. `Deadlift`.
-
-Subsequent lines indicate one set each, where the structure is `${reps}@${poundage}`. For example `5@185` means 5 reps at 185 pounds. This triggers on the `@` symbol.
-
-## Single Line Exercises
-Example:
-```
-5@185 Deadlift
-```
-You can also define an entire exercise on a single line. The above example is equivalent to:
-
-```
-Deadlift
-5@185
-```
-
-
-## Exercises with Multiplied Sets & Reps
-
-Example:
-```
-Squat
-3x5@165
-```
-
-You can use a multiplier like `3x` or `4x` as a concise alternative to repeating the same sets. It triggers on `x` or `X`.
-
-The above example is equivalent to:
-
-```
-Squat
-5@165
-5@165
-5@165
-```
-
-## Notes
-
-Example:
-
-```
-Deadlift
-5@185
-5@255 TOUGH
-```
-
-You can add any text after a set to add notes to it. In this case the notes `TOUGH` are associated to the second Deadlift set.
-
 
 ## Acknowledgements
 

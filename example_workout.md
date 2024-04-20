@@ -15,3 +15,5 @@ Bench Press
 10 @ 90lb 
 10 @ 90lb 
 10 @ 120lb TOUGH
+
+5 @ 35.5kg Squat
