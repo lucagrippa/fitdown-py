@@ -171,7 +171,7 @@ def parse(workout_text):
 
         # Match workout date
         date_match = re.match(r"^Workout (\w+ \d{1,2}, \d{4})$", line)
-        if date_match and not current_date:
+        if date_match:
             date_str = date_match.group(1)
             current_date = parse_date(date_str)
             continue
