@@ -57,22 +57,6 @@ The following elements are parsed:
     },
     {
         "date": "02/26/2024",
-        "exercise": "squat",
-        "notes": "",
-        "reps": 5,
-        "unit": "kg",
-        "weight": 35.0
-    },
-    {
-        "date": "02/26/2024",
-        "exercise": "crunches",
-        "notes": "",
-        "reps": 20,
-        "unit": "lb",
-        "weight": 20.0
-    },
-    {
-        "date": "02/26/2024",
         "exercise": "crunches",
         "notes": "",
         "reps": 20,
