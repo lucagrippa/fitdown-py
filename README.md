@@ -12,9 +12,6 @@ Example:
 Workout January 1, 2024'
 ```
 
-## Output
-
-
 ## Exercises with Sets & Reps
 Parse a specific exercise and its sets and reps (repititions) with weights using a few different formats. Pounds (`lb`) and kilograms (`kg`) are supported and each exercise should be separated by a blank line.
 
