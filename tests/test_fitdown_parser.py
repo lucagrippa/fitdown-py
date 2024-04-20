@@ -1,5 +1,5 @@
 import unittest
-from src.fitdown.fitdown_parser import (
+from fitdown.parse import (
     parse_date,
     parse_exercise,
     parse_single_line_exercise,
