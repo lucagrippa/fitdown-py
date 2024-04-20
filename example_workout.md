@@ -2,10 +2,10 @@ Workout February 26, 2024
 
 5@185lb Deadlift
 
-3x5 @ 35kg Squat
+2x5 @ 35kg Squat
 
 Crunches
-3x20 @ 20lb 
+2x20 @ 20lb 
 
 Hammer Curl
 10 @ 45.5lb each
