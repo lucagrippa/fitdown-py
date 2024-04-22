@@ -1,4 +1,6 @@
-# fitdown-py
+# fitdown
+[![PyPI version](https://badge.fury.io/py/fitdown.svg)](https://badge.fury.io/py/fitdown)
+
 Markup language and parser for fitness logs, mainly weightlifting. A superset of [Markdown](https://en.wikipedia.org/wiki/Markdown).
 
 Based off of [fitdown](https://github.com/datavis-tech/fitdown)
